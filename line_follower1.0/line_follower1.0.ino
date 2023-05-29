@@ -38,9 +38,6 @@ void loop() {
   //read sensor status
   int sensorstatus_Right= digitalRead(IRsensor_Right);
   int sensorstatus_Left= digitalRead(IRsensor_Left);
-  // ngepel();
-  
-  Serial.println("pel jalan");
   //kondisi maju
   if (sensorstatus_Right==0 && sensorstatus_Left == 0){
     maju();
