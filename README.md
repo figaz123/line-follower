@@ -2,9 +2,9 @@
 simple Line follower robot for anyone who interest
 
 ## component lists
-- IR sensor
+- 2 IR sensor
 - L293D motor driver
-- DC motor
+- 4 DC motor
 - Arduino Uno
 
 
