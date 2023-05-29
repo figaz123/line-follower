@@ -7,12 +7,16 @@
 #define enB 8//Enable2 L298 pin in1
 
 /*Define IR sensor variable*/
-#define IRsensor_Right = 4;
-#define IRsensor_Left = 2;
+#define IRsensor_Right 4
+#define IRsensor_Left 2
+
+
+//Define mopping DC motor
+#define mopping 11
 
 //set driver motor setup
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
   // Set up motor driver
   pinMode(enA, OUTPUT);
   pinMode(in1, OUTPUT);
@@ -22,31 +26,44 @@ void setup() {
   pinMode(enB, OUTPUT);
   digitalWrite(enA, HIGH);
   digitalWrite(enB, HIGH);
+  //set up relay
+  pinMode(mopping, OUTPUT);
   //set up sensor 
   pinMode(IRsensor_Right, INPUT);
   pinMode(IRsensor_Left, INPUT);
 }
 
+
 void loop() {
   //read sensor status
   int sensorstatus_Right= digitalRead(IRsensor_Right);
   int sensorstatus_Left= digitalRead(IRsensor_Left);
+  // ngepel();
+  
+  Serial.println("pel jalan");
   //kondisi maju
   if (sensorstatus_Right==0 && sensorstatus_Left == 0){
-    maju();    
+    maju();
+    digitalWrite(mopping, HIGH);    
   }
   //kondisi belok kanan
-  if (sensorstatus_Right==1 && sensorstatus_Left == 0){
+  else if (sensorstatus_Right==1 && sensorstatus_Left == 0){
     belok_kanan();    
+    digitalWrite(mopping, HIGH);
   }
   //kondisi belok kiri
-  if (sensorstatus_Right==0 && sensorstatus_Left == 1){
+  else if (sensorstatus_Right==0 && sensorstatus_Left == 1){
     belok_kiri();    
+    digitalWrite(mopping, HIGH);
   }
   //kondisi stop
-  if (sensorstatus_Right==1 && sensorstatus_Left == 1){
-    stop();    
+  else if (sensorstatus_Right==1 && sensorstatus_Left == 1){
+    stop();
+    digitalWrite(mopping, LOW);
+    Serial.println("pel stop");
+    // delay(1000);
   }
+
 }
 
 //putar maju 
@@ -80,4 +97,3 @@ void stop(){
   digitalWrite(in3, LOW); //Left Motor backword Pin 
   digitalWrite(in4, LOW); //Left Motor forward Pin
 }
-
